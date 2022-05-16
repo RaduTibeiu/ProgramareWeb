@@ -1,0 +1,272 @@
+openapi: 3.0.0
+info:
+    version: 1.0.0
+    title: Sample API
+    description: A sample API to illustrate OpenAPI concepts
+servers:
+    - url: "http://localhost:8080/"
+paths:
+    /room/join:
+        post:
+            tags:
+            - Room
+            summary: Joins a room where you can play
+            description: This can only be done by the logged in user.
+            operationId: joinRoom
+            requestBody:
+                description:
+                $ref: '#/components/schemas/User'
+                required: true
+            responses:
+                default:
+                    description: successful operation
+                    content: {}
+            x-codegen-request-body-name: body
+    /room/play:
+        post:
+            tags:
+            - Room
+            summary: Place bet
+            description: Placing a bet based on a game rules
+            parameters:
+              - name: betOption
+                in: path
+                description: 
+            operationId: placeBet
+            requestBody:
+                required: true
+                description: BetOptions
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BetOptions'
+            responses:
+                200:
+                    description: successful operation, returns
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BetDetails'
+                500:
+                    description: server error
+
+                             
+    /bank/{accountID}:
+        get:
+            tags:
+            - Bank
+            summary: Get bank details
+            description: This can only be done by the logged in user.
+            responses:
+                200:
+                    description: operation successful
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Bank"
+
+
+    /bank/withdraw/{accountId}:
+        post:
+            tags:
+            - Bank
+            summary: Withdraw money
+            description: This can only be done by the logged in user.
+            parameters:
+              - name: accountId
+                in: path
+                description: bank account from which money will be withdrawn
+                required: true 
+              - name: amount
+                in: path
+                description: amount to be withdrawn
+                required: true
+            
+            operationId: bankWithdraw
+            responses:
+                default:
+                    description: successful operation
+                    content: {}
+            x-codegen-request-body-name: body
+    /bank/deposit/{accountId}:
+        post:
+            tags:
+            - Bank
+            summary: Deposit money
+            description: This can only be done by the logged in user
+            parameters:
+              - name: accountId
+                in: path
+                description: bank account where deposit will be done
+                required: true
+              - name: amount
+                in: path
+                description: amount to be deposited
+                required: true
+            operationId: bankDeposit
+            responses:
+                default:
+                    description: successful operation
+                    content: {}
+            x-codegen-request-body-name: body
+    /user:
+        get:
+            tags:
+            - user
+            summary: returns all users
+            description: returns all users
+            operationId: getAllUsers
+            responses:
+                "200":
+                    description: returns all users
+                    content: 
+                        application/json:
+                            schema:
+                             $ref: "#/components/schemas/User"
+                "500":
+                    description: internal error
+        post:
+            tags:
+            - user
+            summary: Create user
+            description: This can only be done by the logged in user.
+            operationId: createUser
+           
+           
+            requestBody:
+                description: Created user object
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+                required: true
+            
+            
+            responses:
+                default:
+                    description: successful operation
+                    content: {}
+            x-codegen-request-body-name: body
+    /user/login:
+     get:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+      - name: username
+        in: query
+        description: The user name for login
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: Invalid username/password supplied
+          content: {}
+    /user/logout:
+     get:
+      tags:
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      responses:
+        default:
+          description: successful operation
+          content: {}
+    /user/userId:
+     delete:
+      tags:
+      - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+      - name: username
+        in: path
+        description: The name that needs to be deleted
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: Invalid username supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+    
+
+components:
+    schemas:
+        User:
+            required:
+                - nickname
+                - surname
+                - name
+            type: object
+            properties:
+                id :
+                    type : number
+                name : 
+                    type : string
+                surname: 
+                    type : string
+                nickname:
+                    type: string
+                age:
+                    type: number
+                email:
+                    type: string
+                balance: 
+                    type: number
+                wins:
+                    type: number
+                losses:
+                    type: number
+                moneywon:
+                    type: number
+                creationdate:
+                    type: number
+                
+        
+        Bank:
+            required:
+                - title
+                - text
+            type: object
+            properties:
+                accountId:
+                    type : number
+                Balance:
+                    type: number
+
+        Room:
+            required:
+                - Nada
+            type: object
+            properties:
+                openSeat:
+                    type: number
+
+        BetDetails:
+            type: object
+            properties:
+                Win/Loss:
+                    type: number
+                moneyBalance:
+                    type: number
+        BetOptions:
+            type: object
+            properties:
+                BetOn:
+                    type: string
+                    enum: [Red, Black, "0-36", odd/even, douzen-numbers]
