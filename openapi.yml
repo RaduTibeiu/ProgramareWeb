@@ -38,7 +38,7 @@ paths:
                 description: BetOptions
                 content:
                     application/json:
-                        schema:
+                        schema: 
                             $ref: '#/components/schemas/BetOptions'
             responses:
                 200:
@@ -178,7 +178,7 @@ paths:
       - user
       summary: Logs out current logged in user session
       operationId: logoutUser
-      responses:
+      responses: 
         default:
           description: successful operation
           content: {}

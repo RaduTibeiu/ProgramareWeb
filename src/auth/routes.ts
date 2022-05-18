@@ -1,9 +1,8 @@
-// import express from 'express';
-// import * as auth from '../auth';
-// import { authenticate } from './controller';
+import express from 'express';
+import { authenticate } from './controller';
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.post(`/auth`, auth.optional, authenticate);
+router.post(`/auth`, authenticate);
 
-// export default router;
+export default router;

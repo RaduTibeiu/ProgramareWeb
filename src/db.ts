@@ -1,6 +1,7 @@
 import mysql from 'mysql';
 import * as env from './env';
 import { UserDB } from './user/types';
+import { ColumnValue } from './types';
 export type TableRow = Record<string, number | string>;
 
 export const pool = mysql.createPool({
@@ -32,6 +33,29 @@ export const queryDeleteUser = async (TABLE_NAME: string, userId: number) => {
   );
   return response.affectedRows;
 };
+
+export const queryUpdateBalance = async (
+  TABLE_NAME: string,
+  balance: number,
+  id: number
+) => {
+  const response = await query(
+    `UPDATE ${TABLE_NAME} SET balance = ? WHERE userId = ? `,
+    [balance, id]
+  );
+  return parseInt(response.affectedRows);
+};
+export const findWhere = async (
+  tableName: String,
+  filter: ColumnValue
+): Promise<TableRow[]> => {
+  const response = await query(
+    `SELECT * FROM ${tableName} WHERE ?? = ? ORDER BY CreationDate DESC `,
+    [filter.column, filter.value]
+  );
+  return response;
+};
+
 export const query = (sqlQuery: string, values?: Array<any> | Object) => {
   return new Promise<any>((resolve, reject) => {
     pool.query(sqlQuery, values, (error, results) => {
