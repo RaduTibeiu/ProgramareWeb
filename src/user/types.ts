@@ -11,6 +11,7 @@ export type UserDB = {
   Wins: number;
   Losses: number;
   MoneyWon: number;
+  Password: string;
 };
 
 export type User = {
@@ -26,4 +27,5 @@ export type User = {
   wins: number;
   losses: number;
   moneywon: number;
+  password: string;
 };

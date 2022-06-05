@@ -13,6 +13,7 @@ export const convertTypeToUserDB = (row: any): UserDB => {
     Wins: row.wins,
     Losses: row.losses,
     MoneyWon: row.moneywon,
+    Password: row.password,
   };
 };
 
@@ -30,5 +31,6 @@ export const convertTypeToUser = (row: UserDB): User => {
     wins: row.Wins,
     losses: row.Losses,
     moneywon: row.MoneyWon,
+    password: row.Password,
   };
 };
