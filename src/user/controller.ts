@@ -1,5 +1,10 @@
 import { Request, Response } from 'express';
-import { queryGetAllUsers, queryAddUser, queryDeleteUser } from '../db';
+import {
+  queryGetAllUsers,
+  queryAddUser,
+  queryDeleteUser,
+  findUser,
+} from '../db';
 import { convertTypeToUser } from './convertor';
 const TABLE_NAME = 'user';
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -30,4 +35,14 @@ export const deleteUser = async (req: Request, res: Response) => {
       .send({ message: `Number of rows affected: ${response}` });
   }
   res.status(200).send({ message: `Deleted Succesfully` });
+};
+
+export const authentificateUser = async (req: Request, res: Response) => {
+  const mail = req.params.mail;
+  const password = req.params.password;
+  const response = await findUser(mail);
+  if (response != password) {
+    return res.status(404);
+  }
+  return res.status(200);
 };
