@@ -3,7 +3,6 @@ import {
   getAllUsers,
   insertUser,
   deleteUser,
-  test,
   authentificateUser,
 } from './controller';
 import { validateUserBody } from './validators';
@@ -17,5 +16,4 @@ router.post('/userInsert', validateUserBody, insertUser);
 router.delete('/userDelete/:userId', deleteUser);
 
 router.post('/auth', authentificateUser);
-router.get('/test', test);
 export default router;

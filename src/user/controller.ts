@@ -20,6 +20,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const insertUser = async (req: Request, res: Response) => {
   const body = req.body;
+  const checkMail = await findUser(body.Mail, 'user');
+  if (checkMail != undefined) {
+    res.status(400).send({ message: 'Mail already in use' });
+  }
   console.log(body);
   const response = await queryAddUser(TABLE_NAME, body);
   res.status(201).json(response.insertId);
@@ -39,16 +43,11 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const authentificateUser = async (req: Request, res: Response) => {
-  const mail = req.params.mail;
-  const password = req.params.password;
-
+  const mail = req.body.Mail;
+  const password = req.body.Password;
   const response = await findUser(mail, 'user');
-  if (response.password != password) {
+  if (response[0].Password != password) {
     return res.status(404);
   }
-  return res.status(200).json(response.insertId);
-};
-
-export const test = async (req: Request, res: Response) => {
-  return res.status(200).send({ message: 'test' });
+  return res.status(200).json(response[0]);
 };

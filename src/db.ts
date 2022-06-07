@@ -48,7 +48,7 @@ export const queryUpdateBalance = async (
 
 export const findUser = async (mail: string, TABLE_NAME: string) => {
   const response = await query(
-    `SELECT * FROM ${TABLE_NAME} WHERE ${mail} = ? `,
+    `SELECT * FROM ${TABLE_NAME} WHERE Mail = "${mail}" `,
     mail
   );
   return response;
