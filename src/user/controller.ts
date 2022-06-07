@@ -15,7 +15,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   const array = results.map((value: any) => {
     return convertTypeToUser(value);
   });
-  res.status(200).send(array);
+  res.status(200).send('test');
 };
 
 export const insertUser = async (req: Request, res: Response) => {
@@ -45,4 +45,8 @@ export const authentificateUser = async (req: Request, res: Response) => {
     return res.status(404);
   }
   return res.status(200);
+};
+
+export const test = async (req: Request, res: Response) => {
+  return res.status(200).send({ message: 'test' });
 };
