@@ -46,10 +46,14 @@ export const queryUpdateBalance = async (
   return parseInt(response.affectedRows);
 };
 
-export const findUser = async (mail: string) => {
-  const response = await query(`SELECT * FROM USERS WHERE ${mail} = ? `, mail);
-  return response.password;
+export const findUser = async (mail: string, TABLE_NAME: string) => {
+  const response = await query(
+    `SELECT * FROM ${TABLE_NAME} WHERE ${mail} = ? `,
+    mail
+  );
+  return response;
 };
+
 export const findWhere = async (
   tableName: String,
   filter: ColumnValue
