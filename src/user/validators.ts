@@ -7,8 +7,8 @@ const schema = Joi.object().keys({
   Name: Joi.string().required(),
   Surname: Joi.string().required(),
   Age: Joi.number().greater(17).required(),
+  Password: Joi.string().required(),
   Mail: Joi.string().email().required(),
-  Password: Joi.string().required,
 });
 
 export const validateUserBody = (

@@ -5,7 +5,7 @@ import {
   queryDeleteUser,
   findUser,
 } from '../db';
-import { convertTypeToUser } from './convertor';
+import { convertTypeToUser, convertTypeToUserDB } from './convertor';
 const TABLE_NAME = 'user';
 export const getAllUsers = async (req: Request, res: Response) => {
   const results = await queryGetAllUsers(TABLE_NAME);
@@ -15,7 +15,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   const array = results.map((value: any) => {
     return convertTypeToUser(value);
   });
-  res.status(200).send('test');
+  res.status(200).send(array);
 };
 
 export const insertUser = async (req: Request, res: Response) => {
