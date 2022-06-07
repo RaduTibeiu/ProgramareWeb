@@ -1,3 +1,6 @@
+create database proiectpw;
+use proiectpw;
+
 create table `user`(
 `UserId`  int unsigned NOT NULL AUTO_INCREMENT,
 `Name` varchar(255) NOT NULL,

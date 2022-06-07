@@ -16,4 +16,5 @@ router.post('/userInsert', validateMailExistance, validateUserBody, insertUser);
 router.delete('/userDelete/:userId', deleteUser);
 
 router.post('/auth', authentificateUser);
+
 export default router;

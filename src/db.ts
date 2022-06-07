@@ -36,12 +36,12 @@ export const queryDeleteUser = async (TABLE_NAME: string, userId: number) => {
 
 export const queryUpdate = async (
   TABLE_NAME: string,
-  body: number,
+  balance: number,
   id: number
 ) => {
   const response = await query(
-    `UPDATE ${TABLE_NAME} SET ?? WHERE userId = ? `,
-    [body, id]
+    `UPDATE ${TABLE_NAME} SET Balance = ? WHERE userId = ? `,
+    [balance, id]
   );
   return parseInt(response.affectedRows);
 };
