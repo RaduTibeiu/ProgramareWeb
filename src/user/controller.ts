@@ -20,10 +20,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const insertUser = async (req: Request, res: Response) => {
   const body = req.body;
-  const checkMail = await findUser(body.Mail, 'user');
-  if (checkMail != undefined) {
-    res.status(400).send({ message: 'Mail already in use' });
-  }
+
   console.log(body);
   const response = await queryAddUser(TABLE_NAME, body);
   res.status(201).json(response.insertId);
@@ -47,7 +44,7 @@ export const authentificateUser = async (req: Request, res: Response) => {
   const password = req.body.Password;
   const response = await findUser(mail, 'user');
   if (response[0].Password != password) {
-    return res.status(404);
+    return res.status(404).send({ message: 'Credential Does not match' });
   }
   return res.status(200).json(response[0]);
 };

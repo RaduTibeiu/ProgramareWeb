@@ -5,13 +5,13 @@ import {
   deleteUser,
   authentificateUser,
 } from './controller';
-import { validateUserBody } from './validators';
+import { validateMailExistance, validateUserBody } from './validators';
 
 const router = express.Router();
 
 router.get('/user', getAllUsers);
 
-router.post('/userInsert', validateUserBody, insertUser);
+router.post('/userInsert', validateMailExistance, validateUserBody, insertUser);
 
 router.delete('/userDelete/:userId', deleteUser);
 

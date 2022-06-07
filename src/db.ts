@@ -34,14 +34,14 @@ export const queryDeleteUser = async (TABLE_NAME: string, userId: number) => {
   return response.affectedRows;
 };
 
-export const queryUpdateBalance = async (
+export const queryUpdate = async (
   TABLE_NAME: string,
-  balance: number,
+  body: number,
   id: number
 ) => {
   const response = await query(
-    `UPDATE ${TABLE_NAME} SET balance = ? WHERE userId = ? `,
-    [balance, id]
+    `UPDATE ${TABLE_NAME} SET ?? WHERE userId = ? `,
+    [body, id]
   );
   return parseInt(response.affectedRows);
 };

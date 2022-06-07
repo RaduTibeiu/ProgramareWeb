@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
+import { nextTick } from 'process';
+import { findUser } from '../db';
 import { validateBody } from '../util';
 
 const schema = Joi.object().keys({
@@ -17,4 +19,17 @@ export const validateUserBody = (
   next: NextFunction
 ) => {
   return validateBody(req, res, next, schema);
+};
+
+export const validateMailExistance = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const body = req.body;
+  const checkMail = await findUser(body.Mail, 'user');
+  if (checkMail != undefined) {
+    res.status(400).send({ message: 'Mail does not exist' });
+  }
+  next;
 };
