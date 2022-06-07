@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import { PORT } from './env';
 import userRoutes from './user/routes';
+import cors from 'cors';
 export const app: Application = express();
 
 // Different middlewares
@@ -8,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../public'));
 
+app.use(cors({ credentials: true, origin: true }));
 app.use(userRoutes);
 try {
   app.listen(PORT, (): void => {
