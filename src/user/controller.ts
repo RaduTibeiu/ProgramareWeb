@@ -41,9 +41,9 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const body = req.body;
   const id = parseInt(req.params.userId);
 
+  const body = convertTypeToUserDB(req.body);
   const affectedRows = await updateById(
     'user',
     {
