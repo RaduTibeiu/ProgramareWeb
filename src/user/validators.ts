@@ -29,6 +29,7 @@ export const checkMailInUse = async (
 ) => {
   const body = req.body;
   const checkMail = await findUser(body.Mail, 'user');
+  console.log(checkMail);
   if (checkMail[0] != undefined) {
     return res.status(404).send({ message: 'Mail already in use !!!' });
   }
@@ -41,14 +42,20 @@ export const authCredentials = async (
   next: NextFunction
 ) => {
   const mail = req.body.Mail;
+  if (!mail) {
+    res.status(404).send({ message: 'Email Required' });
+  }
   const password = req.body.Password;
+  if (!password) {
+    res.status(400).send({ message: 'Password Required' });
+  }
   const response = await findUser(mail, 'user');
 
   if (response[0] == undefined) {
     res.status(404).send({ message: 'Mail does not exist' });
   }
   if (response[0].Password != password) {
-    return res.status(404).send({ message: 'Credential Does not match' });
+    return res.status(400).send({ message: 'Credential Does not match' });
   }
   return next();
 };
