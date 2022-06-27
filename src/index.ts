@@ -6,10 +6,10 @@ import cors from 'cors';
 export const app: Application = express();
 
 // Different middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/../public'));
-
 app.use(cors({ credentials: true, origin: true }));
 app.use(userRoutes);
 app.use(bankRoutes);

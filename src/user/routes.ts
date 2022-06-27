@@ -1,11 +1,16 @@
 import express from 'express';
+import { updateBankBalance } from '../bank/controller';
 import {
   getAllUsers,
   insertUser,
   deleteUser,
   authentificateUser,
 } from './controller';
-import { validateMailExistance, validateUserBody } from './validators';
+import {
+  passwordMatch,
+  validateMailExistance,
+  validateUserBody,
+} from './validators';
 
 const router = express.Router();
 
@@ -15,6 +20,7 @@ router.post('/userInsert', validateMailExistance, validateUserBody, insertUser);
 
 router.delete('/userDelete/:userId', deleteUser);
 
-router.post('/auth', authentificateUser);
+router.post('/auth', validateMailExistance, passwordMatch, authentificateUser);
 
+router.post('/muie', updateBankBalance);
 export default router;
