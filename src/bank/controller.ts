@@ -4,7 +4,6 @@ const TABLE_NAME = 'user';
 export const updateBankBalance = async (req: Request, res: Response) => {
   const balance = parseInt(req.params.Balance);
   const id = parseInt(req.params.Id);
-  console.log(req.body[0]);
   const affectedRows = await queryUpdate(TABLE_NAME, balance, id);
   if (affectedRows != 1)
     return res

@@ -22,7 +22,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const insertUser = async (req: Request, res: Response) => {
   const body = req.body;
 
-  console.log(body);
   const resp = await queryAddUser(TABLE_NAME, body);
   res.status(201).json(resp.insertId);
 };
