@@ -65,6 +65,31 @@ export const findWhere = async (
   return response;
 };
 
+export const updateById = async (
+  tableName: string,
+  primaryKey: ColumnValue,
+  object: TableRow
+) => {
+  Object.keys(object).forEach((key) =>
+    object[key] === undefined ? delete object[key] : {}
+  );
+
+  const response = await query(`UPDATE ${tableName} SET ? WHERE ?? = ? `, [
+    object,
+    primaryKey.column,
+    primaryKey.value,
+  ]);
+  return parseInt(response.affectedRows);
+};
+
+export const findById = async (tableName: String, id: number) => {
+  const response = await query(
+    `SELECT * FROM ${tableName} WHERE UserId = ${id}`
+  );
+
+  if (response[0] != undefined) return response;
+  return undefined;
+};
 export const query = (sqlQuery: string, values?: Array<any> | Object) => {
   return new Promise<any>((resolve, reject) => {
     pool.query(sqlQuery, values, (error, results) => {

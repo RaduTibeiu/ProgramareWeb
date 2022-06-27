@@ -4,6 +4,7 @@ import {
   queryAddUser,
   queryDeleteUser,
   findUser,
+  updateById,
 } from '../db';
 import { convertTypeToUser, convertTypeToUserDB } from './convertor';
 const TABLE_NAME = 'user';
@@ -22,21 +23,42 @@ export const insertUser = async (req: Request, res: Response) => {
   const body = req.body;
 
   console.log(body);
-  const response = await queryAddUser(TABLE_NAME, body);
-  res.status(201).json(response.insertId);
+  const resp = await queryAddUser(TABLE_NAME, body);
+  res.status(201).json(resp.insertId);
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
   const id = parseInt(req.params.userId);
 
-  const response = await queryDeleteUser(TABLE_NAME, id);
+  const resp = await queryDeleteUser(TABLE_NAME, id);
 
-  if (response != 1) {
+  if (resp != 1) {
     return res
       .status(500)
-      .send({ message: `Number of rows affected: ${response}` });
+      .send({ message: `Number of rows affected: ${resp}` });
   }
   res.status(200).send({ message: `Deleted Succesfully` });
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  const body = req.body;
+  const id = parseInt(req.params.userId);
+
+  const affectedRows = await updateById(
+    'user',
+    {
+      column: `UserId`,
+      value: id,
+    },
+    body
+  );
+  if (affectedRows != 1) {
+    return res
+      .status(500)
+      .send({ message: `Multiple Rows Affected ${affectedRows}` });
+  }
+
+  return res.status(200).send({ message: `id : ${id} updated succesfully ` });
 };
 
 export const authentificateUser = async (req: Request, res: Response) => {

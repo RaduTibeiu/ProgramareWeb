@@ -5,22 +5,30 @@ import {
   insertUser,
   deleteUser,
   authentificateUser,
+  updateUser,
 } from './controller';
 import {
-  passwordMatch,
-  validateMailExistance,
+  authCredentials,
+  checkMailInUse,
+  validateId,
   validateUserBody,
 } from './validators';
 
 const router = express.Router();
 
+//auth
+router.post('/auth', authCredentials, authentificateUser);
+
+//get all users
 router.get('/user', getAllUsers);
 
-router.post('/userInsert', validateMailExistance, validateUserBody, insertUser);
+//add new user
+router.post('/user', checkMailInUse, validateUserBody, insertUser);
 
-router.delete('/userDelete/:userId', deleteUser);
+//update user
 
-router.post('/auth', validateMailExistance, passwordMatch, authentificateUser);
+router.put('/user/:userId', validateId, updateUser);
+//delete
+router.delete('/user/:userId', deleteUser);
 
-router.post('/muie', updateBankBalance);
 export default router;
